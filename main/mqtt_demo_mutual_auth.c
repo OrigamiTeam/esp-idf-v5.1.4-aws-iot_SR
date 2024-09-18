@@ -205,7 +205,7 @@ extern const char root_cert_auth_end[]   asm("_binary_aws_root_ca_pem_end");
  * @brief Maximum number of outgoing publishes maintained in the application
  * until an ack is received from the broker.
  */
-#define MAX_OUTGOING_PUBLISHES              ( 5U )
+#define MAX_OUTGOING_PUBLISHES              ( 15U )
 
 /**
  * @brief Invalid packet identifier for the MQTT packets. Zero is always an
@@ -227,22 +227,22 @@ extern const char root_cert_auth_end[]   asm("_binary_aws_root_ca_pem_end");
  *  absence of sending any other Control Packets, the Client MUST send a
  *  PINGREQ Packet.
  */
-#define MQTT_KEEP_ALIVE_INTERVAL_SECONDS    ( 60U )
+#define MQTT_KEEP_ALIVE_INTERVAL_SECONDS    ( 120U )
 
 /**
  * @brief Delay between MQTT publishes in seconds.
  */
-#define DELAY_BETWEEN_PUBLISHES_SECONDS     ( 1U )
+#define DELAY_BETWEEN_PUBLISHES_SECONDS     ( 60U )
 
 /**
  * @brief Number of PUBLISH messages sent per iteration.
  */
-#define MQTT_PUBLISH_COUNT_PER_LOOP         ( 5U )
+#define MQTT_PUBLISH_COUNT_PER_LOOP         ( 60U )
 
 /**
  * @brief Delay in seconds between two iterations of subscribePublishLoop().
  */
-#define MQTT_SUBPUB_LOOP_DELAY_SECONDS      ( 5U )
+#define MQTT_SUBPUB_LOOP_DELAY_SECONDS      ( 15U )
 
 /**
  * @brief Transport timeout in milliseconds for transport send and receive.

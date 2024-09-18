@@ -11,8 +11,8 @@
 // Default interrupt flag
 #define ESP_INTR_FLAG_DEFAULT	0
 
-// Wifi reset button is the GPIO19 on the DevKit
-#define WIFI_RESET_BUTTON		19
+// Wifi reset button is the GPIO33 on the DevKit
+#define WIFI_RESET_BUTTON		33
 
 /**
  * Configures Wifi reset button and interrupt configuration

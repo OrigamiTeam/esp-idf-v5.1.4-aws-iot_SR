@@ -77,6 +77,7 @@
 
 #include "DHT22.h"
 #include "wifi_app.h"
+#include "tasks_common.h"
 
 #ifdef CONFIG_EXAMPLE_USE_ESP_SECURE_CERT_MGR
     #include "esp_secure_cert_read.h"    
@@ -227,12 +228,12 @@ extern const char root_cert_auth_end[]   asm("_binary_aws_root_ca_pem_end");
  *  absence of sending any other Control Packets, the Client MUST send a
  *  PINGREQ Packet.
  */
-#define MQTT_KEEP_ALIVE_INTERVAL_SECONDS    ( 120U )
+#define MQTT_KEEP_ALIVE_INTERVAL_SECONDS    ( 60U )
 
 /**
  * @brief Delay between MQTT publishes in seconds.
  */
-#define DELAY_BETWEEN_PUBLISHES_SECONDS     ( 60U )
+#define DELAY_BETWEEN_PUBLISHES_SECONDS     ( 15U )
 
 /**
  * @brief Number of PUBLISH messages sent per iteration.
@@ -242,7 +243,7 @@ extern const char root_cert_auth_end[]   asm("_binary_aws_root_ca_pem_end");
 /**
  * @brief Delay in seconds between two iterations of subscribePublishLoop().
  */
-#define MQTT_SUBPUB_LOOP_DELAY_SECONDS      ( 15U )
+#define MQTT_SUBPUB_LOOP_DELAY_SECONDS      ( 2U )
 
 /**
  * @brief Transport timeout in milliseconds for transport send and receive.
@@ -1089,7 +1090,7 @@ static void eventCallback( MQTTContext_t * pMqttContext,
                 /* A SUBACK from the broker, containing the server response to our subscription request, has been received.
                  * It contains the status code indicating server approval/rejection for the subscription to the single topic
                  * requested. The SUBACK will be parsed to obtain the status code, and this status code will be stored in global
-                 * variable globalSubAckStatus. */
+                 * variable globalSubAc60UkStatus. */
                 updateSubAckStatus( pPacketInfo );
 
                 /* Check status of the subscription request. If globalSubAckStatus does not indicate
@@ -1674,8 +1675,7 @@ static MQTTStatus_t processLoopWithTimeout( MQTTContext_t * pMqttContext,
  * are resent in this demo. In order to support retransmission all the outgoing
  * publishes are stored until a PUBACK is received.
  */
-int aws_iot_demo_main( int argc,
-          char ** argv )
+int aws_iot_demo_main(int argc, char ** argv )
 {
     int returnStatus = EXIT_SUCCESS;
     MQTTContext_t mqttContext = { 0 };
@@ -1767,4 +1767,17 @@ int aws_iot_demo_main( int argc,
     return returnStatus;
 }
 
-/*-----------------------------------------------------------*/
+void aws_iot_task(void * pvParameters)
+{
+
+    aws_iot_demo_main(0, NULL);
+
+    vTaskDelay(5000 / portTICK_PERIOD_MS);
+}
+
+void aws_iot_task_start(void)
+{
+    // Cria a task no core 1
+    xTaskCreatePinnedToCore(&aws_iot_task,"aws_iot_task",AWS_IOT_TASK_STACK_SIZE,NULL,AWS_IOT_TASK_PRIORITY,NULL,AWS_IOT_TASK_CORE_ID);
+}
+

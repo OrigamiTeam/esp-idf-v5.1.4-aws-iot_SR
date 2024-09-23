@@ -148,4 +148,11 @@
 #include "core_mqtt.h"
 #define MQTT_LIB    "core-mqtt@" MQTT_LIBRARY_VERSION
 
+
+void aws_iot_task_start(void);
+
 #endif /* ifndef DEMO_CONFIG_H_ */
+
+
+    // ( void ) argc;
+    // ( void ) argv;

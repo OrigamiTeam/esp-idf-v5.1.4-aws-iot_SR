@@ -20,7 +20,12 @@
         "stdbool.h": "c",
         "esp_netif.h": "c",
         "esp_wifi_types.h": "c",
-        "aws_iot.h": "c"
+        "aws_iot.h": "c",
+        "core_mqtt_state.h": "c",
+        "core_mqtt.h": "c",
+        "demo_config.h": "c",
+        "protocol_examples_common.h": "c",
+        "system_error": "c"
     },
     "idf.gitPath": "git"
 }
